@@ -13,3 +13,7 @@ create table products (
     price DECIMAL NOT NULL,
     stock INT NOT NULL
 );
+
+select * from products
+
+drop table users 

@@ -44,7 +44,7 @@ app.put('/users/:id', async (req, res) =>{
 
 })
 
-app.delete('/users/:id', async(req)=>{
+app.delete('/users/:id', async(req, res)=>{
 
     const id_users= req.params.id
     const sql= 'DELETE from users where id_users= $1'
@@ -67,7 +67,7 @@ app.get('/products/:id', async(req, res)=>{
 
     const id_products= req.params.id
 
-   const sql = `select * from users where id_products = ${id_products}`
+   const sql = `select * from products where id_products = ${id_products}`
    const result = await db.default.query(sql)
    res.json(result)
 
@@ -113,3 +113,5 @@ app.delete('/products/:id', async (req,res)=>{
         const result = await db.default.query(sql,arr)
         res.json({message: "Product Deleted"})
 })
+
+app.listen(3000)
