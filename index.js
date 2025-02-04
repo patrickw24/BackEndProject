@@ -11,6 +11,16 @@ app.get('/users', async function (req, res){
 
 })
 
+app.get('/users/:id', async function (req, res){
+
+   const id_users= req.params.id
+
+   const sql = `select * from users where id_users = ${id_users}`
+   const result = await db.default.query(sql)
+   res.json(result)
+
+})
+
 app.post('/users', async function (req, res){
 
     const tmp= req.body
@@ -50,6 +60,16 @@ app.get('/products', async(req, res)=>{
     const sql= 'select * from products'
     const result= await db.default.query(sql)
     res.json(result)
+
+})
+
+app.get('/products/:id', async(req, res)=>{
+
+    const id_products= req.params.id
+
+   const sql = `select * from users where id_products = ${id_products}`
+   const result = await db.default.query(sql)
+   res.json(result)
 
 })
 
