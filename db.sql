@@ -14,6 +14,17 @@ create table products (
     stock INT NOT NULL
 );
 
-select * from products
+create table orders (
+    id_orders SERIAL PRIMARY KEY,
+    id_users INT REFERENCES users(id_users),
+    order_date DATE DEFAULT CURRENT_DATE,
+    status TEXT 
+);
 
-drop table users 
+create table order_details (
+    id_details SERIAL PRIMARY KEY,
+    id_orders INT REFERENCES orders(id_orders),
+    id_products INT REFERENCES products(id_products),
+    quantity INT NOT NULL,
+    price DECIMAL NOT NULL
+);

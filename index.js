@@ -114,4 +114,11 @@ app.delete('/products/:id', async (req,res)=>{
         res.json({message: "Product Deleted"})
 })
 
+app.get('/orders', async (req, res)=>{
+
+    const sql= 'select * from orders'
+    const result= await db.default.query(sql)
+    res.json(result)
+})
+
 app.listen(3000)
