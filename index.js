@@ -86,7 +86,7 @@ app.put('/products/:id', async(req, res)=>{
 
 app.delete('/products/:id', async (req,res)=>{
 
-        const id_people= req.params.id
+        const id_products= req.params.id
         const sql = 'delete from products where id_products= 1'
         const arr= [id_products]
 
