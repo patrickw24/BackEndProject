@@ -28,3 +28,15 @@ create table order_details (
     quantity INT NOT NULL,
     price DECIMAL NOT NULL
 );
+
+select * from order_details
+
+select * from products
+
+select * from orders
+
+select * from users
+
+insert into users 
+(name, email) values
+('Patrick','patrick@codex.com' )

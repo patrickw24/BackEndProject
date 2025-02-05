@@ -133,9 +133,11 @@ app.get('/orders/:id', async(req, res)=>{
 
 app.post('/orders', async(req, res)=>{
 
-    const sql= 'insert into orders (order_date, status) values ($1, $2)'
+    
+
+    const sql= 'insert into orders (order_date, status, id_users) values ($1, $2, $3)'
     const tmp= req.body
-    const arr= [tmp.order_date, tmp.status]
+    const arr= [tmp.order_date, tmp.status, tmp.id_users]
 
     const result = await db.default.query(sql, arr)
 
@@ -170,7 +172,7 @@ app.delete('/orders/:id', async (req,res)=>{
 
 app.get('/orders/:id_orders/details', async(req, res)=>{
 
-    const id_orders= req.params.id
+    const id_orders= req.params.id_orders
 
    const sql = `select * from order_details where id_orders = ${id_orders}`
    const result = await db.default.query(sql)
@@ -180,17 +182,49 @@ app.get('/orders/:id_orders/details', async(req, res)=>{
 
 app.post('/orders/:id_orders/details', async(req, res)=>{
 
-    const id_orders= req.params.id
+    const id_orders= req.params.id_orders
+    
 
-    const sql= `insert into order_details (quantity, price) values ($1, $2) where id_orders= ${id_orders}`
+    const sql= `insert into order_details (quantity, price, id_orders, id_products) values ($1, $2, $3, $4)`
     const tmp= req.body
-    const arr= [tmp.quantity, tmp.price]
+    const arr= [tmp.quantity, tmp.price, id_orders, tmp.id_products]
 
     const result = await db.default.query(sql, arr)
 
-    res.json({message:"New Product Added"})
+    res.json({message:"New Product Added"}) 
 
 })
+
+app.put('/orders/:id_orders/details', async (req, res) =>{
+
+    const id_orders= req.params.id_orders
+    const tmp= req.body
+    const arr= [tmp.quantity, tmp.price, tmp.id_products, id_orders]
+
+
+    const sql = `update order_details 
+    set quantity= $1,
+        price= $2,
+        id_products= $3
+        where id_orders= $4; `
+     const result = await db.default.query(sql, arr)
+     res.json({message: "Order Details Updated"})
+
+})
+
+app.delete('/orders/:id_orders/details/:id_details', async (req, res)=>{
+
+    const id_orders= req.params.id_orders
+    const id_details= req.params.id_details
+
+    const sql= `delete from order_details where id_orders=$1 and id_details=$2`
+    const arr= [id_orders, id_details]
+
+    const result = await db.default.query(sql,arr)
+    res.json({message: "Order Deleted"})
+})
+
+
 
 
 app.listen(3000)
