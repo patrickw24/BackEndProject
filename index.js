@@ -121,4 +121,76 @@ app.get('/orders', async (req, res)=>{
     res.json(result)
 })
 
+app.get('/orders/:id', async(req, res)=>{
+
+    const id_orders= req.params.id
+
+   const sql = `select * from orders where id_orders = ${id_orders}`
+   const result = await db.default.query(sql)
+   res.json(result)
+
+})
+
+app.post('/orders', async(req, res)=>{
+
+    const sql= 'insert into orders (order_date, status) values ($1, $2)'
+    const tmp= req.body
+    const arr= [tmp.order_date, tmp.status]
+
+    const result = await db.default.query(sql, arr)
+
+    res.json({message:"Order Created"})
+
+})
+
+app.put('/orders/:id', async(req, res)=>{
+    const id_orders= req.params.id
+    const tmp = req.body
+    const arr = [tmp.order_date,tmp.status,id_orders]
+
+    const sql = `update orders 
+    set order_date= $1,
+        status= $2
+        where id_orders= $3
+     `
+     const result = db.default.query(sql, arr)
+     res.json({message: "Order Updated"})
+
+})
+
+app.delete('/orders/:id', async (req,res)=>{
+
+    const id_orders= req.params.id
+    const sql = 'delete from orders where id_orders= $1'
+    const arr= [id_orders]
+
+    const result = await db.default.query(sql,arr)
+    res.json({message: "Order Deleted"})
+})
+
+app.get('/orders/:id_orders/details', async(req, res)=>{
+
+    const id_orders= req.params.id
+
+   const sql = `select * from order_details where id_orders = ${id_orders}`
+   const result = await db.default.query(sql)
+   res.json(result)
+
+})
+
+app.post('/orders/:id_orders/details', async(req, res)=>{
+
+    const id_orders= req.params.id
+
+    const sql= `insert into order_details (quantity, price) values ($1, $2) where id_orders= ${id_orders}`
+    const tmp= req.body
+    const arr= [tmp.quantity, tmp.price]
+
+    const result = await db.default.query(sql, arr)
+
+    res.json({message:"New Product Added"})
+
+})
+
+
 app.listen(3000)
